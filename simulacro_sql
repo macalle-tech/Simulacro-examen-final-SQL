@@ -34,3 +34,51 @@ create table ventas (
 	foreign key (cliente_id) references clientes(id),
 	foreign key (producto_id) references productos(id)
 );
+
+
+-- REGISTROS --
+
+insert into clientes (nombre, correo, ciudad, telefono) values 
+('Carlos Ramirez', 'carlos@gmail.com', 'Medellin', '3001234567'),
+('Laura Gomez', 'laura@gmail.com', 'Bogota', '3012238567'),
+('Andres Torres', 'Andres@gmail.com', 'Cali', '3121276567'),
+('Maria Lopez', 'maria@gmail.com', 'Pereira', '3010234167'),
+('Juan Herrera', 'Juan@gmail.com', 'Manizales', '3131234069');
+
+insert into productos (nombre, precio, stock) values 
+('Laptop Lenovo', 2500000, 15),
+('Mouse inalambrico', 45000, 50),
+('Teclado Mecanico', 180000, 30),
+('Monitor Samsung', 850000, 8),
+('Auriculares Sony', 320000, 5),
+('Webcam Logitech', 150000, 12),
+('Disco Duro TTB', 220000, 3),
+('Memoria USB 64GB', 35000, 9);
+
+
+insert into ventas (cliente_id, producto_id, cantidad, fecha) values 
+(1, 1, 1, '2026-01-10'),
+(2, 3, 2, '2026-01-15'),
+(3, 2, 1, '2026-02-01'),
+(4, 5, 1, '2026-02-20'),
+(5, 4, 1, '2026-03-05'),
+(1, 6, 2, '2026-03-10'),
+(2, 7, 1, '2026-03-15'),
+(3, 8, 3, '2026-04-01'),
+(4, 1, 1, '2026-04-10'),
+(5, 2, 2, '2026-04-20');
+
+
+-- CONSULTA 1 MOSTRAR CLIENTES --
+
+select * from clientes;
+
+
+-- CONSULTA 2 PRODUCTOS ORDENADOS POR PRECIO DE MAYOR A MENOR --
+
+select * from productos order by precio desc;
+
+
+-- CONSULTA 3 PRODUCTOS CON STOCK MENOR A 10 --
+
+select * from productos where stock <10;
