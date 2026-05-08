@@ -1,0 +1,36 @@
+create database tienda_tecnologica
+use tienda_tecnologica 
+
+
+-- CLIENTES --
+
+create table clientes (
+	id int auto_increment primary key,
+	nombre varchar(100) not null,
+	correo varchar(100) unique, 
+	ciudad varchar(50),
+	telefono varchar(20)
+);
+
+
+-- PRODUCTOS --
+
+create table productos (
+	id int auto_increment primary key,
+	nombre varchar(100) not null,
+	precio decimal(10,2),
+	stock int
+);
+
+
+-- VENTAS --
+
+create table ventas (
+	id int auto_increment primary key,
+	cliente_id int,
+	producto_id int,
+	cantidad int,
+	fecha date,
+	foreign key (cliente_id) references clientes(id),
+	foreign key (producto_id) references productos(id)
+);
