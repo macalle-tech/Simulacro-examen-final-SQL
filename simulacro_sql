@@ -82,3 +82,205 @@ select * from productos order by precio desc;
 -- CONSULTA 3 PRODUCTOS CON STOCK MENOR A 10 --
 
 select * from productos where stock <10;
+
+
+-- CONSULTA 4 VENTAS REALIZADAS DESPUES DE UNA FECHA ESPECIFICA --
+
+SELECT * FROM ventas WHERE fecha > '2026-03-01';
+
+
+-- CONSULTA 5 LOS 3 PRODUCTOS MAS COSTOSOS --
+
+SELECT * FROM productos ORDER BY precio DESC LIMIT 3;
+
+
+-- Consulta 6 — Contar cuántos clientes existen --
+
+SELECT COUNT(*) AS total_clientes FROM clientes;
+
+
+-- Consulta 7 — Valor total vendido por producto --
+
+SELECT productos.nombre, SUM(ventas.cantidad * productos.precio) AS total_vendido
+FROM ventas
+JOIN productos ON ventas.producto_id = productos.id
+GROUP BY productos.nombre;
+
+
+-- indices --
+
+-- Índice para búsquedas por correo en clientes
+CREATE INDEX idx_correo ON clientes(correo);
+
+-- Índice para búsquedas por nombre de producto
+CREATE INDEX idx_nombre_producto ON productos(nombre);
+
+-- Índice para consultas por fecha en ventas
+CREATE INDEX idx_fecha ON ventas(fecha);
+
+
+-- INNER JOIN 
+
+-- Consulta 1 — Nombre del cliente y producto comprado
+
+SELECT clientes.nombre AS cliente, productos.nombre AS producto
+FROM ventas
+JOIN clientes ON ventas.cliente_id = clientes.id
+JOIN productos ON ventas.producto_id = productos.id;
+
+
+-- Consulta 2 — Cantidad comprada junto con el precio del producto
+
+SELECT clientes.nombre AS cliente, productos.nombre AS producto, 
+ventas.cantidad, productos.precio
+FROM ventas
+JOIN clientes ON ventas.cliente_id = clientes.id
+JOIN productos ON ventas.producto_id = productos.id;
+
+
+-- Consulta 3 — Todas las ventas con nombre del cliente y fecha
+
+SELECT clientes.nombre AS cliente, productos.nombre AS producto, ventas.fecha
+FROM ventas
+JOIN clientes ON ventas.cliente_id = clientes.id
+JOIN productos ON ventas.producto_id = productos.id;
+
+
+-- Consulta 4 — Cuánto dinero gastó cada cliente
+
+SELECT clientes.nombre AS cliente, 
+SUM(ventas.cantidad * productos.precio) AS total_gastado
+FROM ventas
+JOIN clientes ON ventas.cliente_id = clientes.id
+JOIN productos ON ventas.producto_id = productos.id
+GROUP BY clientes.nombre;
+
+
+-- Consulta 5 — Cliente que más compró
+
+SELECT clientes.nombre AS cliente, 
+SUM(ventas.cantidad * productos.precio) AS total_gastado
+FROM ventas
+JOIN clientes ON ventas.cliente_id = clientes.id
+JOIN productos ON ventas.producto_id = productos.id
+GROUP BY clientes.nombre
+ORDER BY total_gastado DESC
+LIMIT 1;
+
+
+-- Reto 1 — Producto más vendido
+
+SELECT productos.nombre, SUM(ventas.cantidad) AS total_vendido
+FROM ventas
+JOIN productos ON ventas.producto_id = productos.id
+GROUP BY productos.nombre
+ORDER BY total_vendido DESC
+LIMIT 1;
+
+
+-- Reto 2 — Clientes que no han realizado compras
+
+SELECT clientes.nombre
+FROM clientes
+LEFT JOIN ventas ON clientes.id = ventas.cliente_id
+WHERE ventas.cliente_id IS NULL;
+
+
+-- Reto 3 — Promedio de precios de los productos
+
+SELECT AVG(precio) AS promedio_precio FROM productos;
+
+
+-- Reto 4 — Crear una vista SQL
+
+CREATE VIEW vista_ventas AS
+SELECT clientes.nombre AS cliente, productos.nombre AS producto, 
+ventas.cantidad, ventas.fecha
+FROM ventas
+JOIN clientes ON ventas.cliente_id = clientes.id
+JOIN productos ON ventas.producto_id = productos.id;
+
+SELECT * FROM vista_ventas;
+
+
+-- Reto 5 — Agrupar ventas por cliente
+SELECT clientes.nombre AS cliente, COUNT(ventas.id) AS total_compras
+FROM ventas
+JOIN clientes ON ventas.cliente_id = clientes.id
+GROUP BY clientes.nombre;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
